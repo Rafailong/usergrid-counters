@@ -1,0 +1,5 @@
+--require test/requires
+--reporter spec
+--ui bdd
+-t 200000
+-G
