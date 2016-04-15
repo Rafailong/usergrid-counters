@@ -8,7 +8,7 @@ const createEventsRequestBaseOptions = {
   endpoint:'events'
 }
 
-export function createEvent (client, counters = validations.require('counters', counters)) {
+export function createEvent (client, counters = validations.required('counters', counters)) {
    let body = { 'timestamp': 0, 'counters': [] }
    if (counters instanceof Array) {
     body.counters = _.map(counters, (name) => { name: 0})
