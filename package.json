@@ -4,8 +4,7 @@
   "description": "A Node.js package to work with usergrid counter/events.",
   "main": "index.js",
   "scripts": {
-    "pretest": "npm run build",
-    "test": "./node_modules/.bin/mocha test/**/*.test.js --compilers js:babel-register",
+    "test": "./node_modules/.bin/mocha tests/**/*.test.js --compilers js:babel-register",
     "build": "npm run clean && ./node_modules/.bin/babel src --out-dir lib",
     "clean": "./node_modules/.bin/trash lib"
   },
@@ -39,6 +38,7 @@
     "mocha": "2.4.5",
     "should": "8.3.1",
     "faker": "3.1.0",
-    "trash-cli": "1.3.0"
+    "trash-cli": "1.3.0",
+    "dotenv": "2.0.0"
   }
 }
