@@ -4,7 +4,7 @@
   "description": "A Node.js package to work with usergrid counter/events.",
   "main": "index.js",
   "scripts": {
-    "prepublish": "./node_modules/bin/babel src --out-dir lib"
+    "prepublish": "node_modules/babel-cli/bin/babel.js src --out-dir lib"
   },
   "babel": {
     "presets": ["es2015"]
@@ -24,9 +24,17 @@
     "url": "https://github.com/Rafailong/usergrid-counters/issues"
   },
   "homepage": "https://github.com/Rafailong/usergrid-counters#readme",
+  "dependencies": {
+    "usergrid_": "0.10.8",
+    "bluebird": "3.3.5",
+    "lodash": "4.11.1"
+  },
   "devDependencies": {
     "babel-cli": "^6.7.5",
     "babel-core": "^6.7.6",
-    "babel-preset-es2015": "^6.6.0"
+    "babel-preset-es2015": "^6.6.0",
+    "mocha": "2.4.5",
+    "should": "8.3.1",
+    "faker": "3.1.0"
   }
 }
