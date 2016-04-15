@@ -9,18 +9,12 @@ const createEventsRequestBaseOptions = {
 }
 
 export function createEvent (client, counters = validations.required('counters', counters)) {
-   let body = { 'timestamp': 0, 'counters': [] }
+   let body = { 'timestamp': 0, 'counters': {} }
    if (counters instanceof Array) {
-    body.counters = _.map(counters, (name) => { name: 0})
+     _.each(counters, (name) => body.counters[name] = 0)
    } else {
-     var counter = {}
-     counter[counters.toString()] = 0
-     body.counters.push(counter)
+     body.counters[counters.toString()] = 0
    }
    const reqOpts = Object.assign(createEventsRequestBaseOptions, { body })
-   return  Promise.promisify(client.request)(reqOpts)
-    .then((response) => {
-      console.log(response)
-      return response
-    })
+   return  Promise.promisify(client.request, { 'context': client })(reqOpts)
 }
