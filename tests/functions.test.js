@@ -30,9 +30,11 @@ describe('index', () => {
     it('should create a event', (done) => {
       const eventName = faker.random.uuid()
       _client.createEvent(eventName)
-        .then((counter) => {
-          expect(counter).not.to.be.null
-          expect(counter).be.a('object')
+        .then((counters) => {
+          expect(counters).not.to.be.null
+          expect(counters).be.a('array')
+          expect(counters).not.to.be.empty
+          expect(counters.length).equals(1)
           done()
         })
         .catch(done)

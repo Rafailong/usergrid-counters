@@ -17,4 +17,5 @@ export function createEvent (client, counters = validations.required('counters',
    }
    const reqOpts = Object.assign(createEventsRequestBaseOptions, { body })
    return  Promise.promisify(client.request, { 'context': client })(reqOpts)
+    .then((response) => response.entities)
 }
