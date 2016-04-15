@@ -1,0 +1,22 @@
+{
+  "name": "usergrid-counters",
+  "version": "1.0.0",
+  "description": "A Node.js package to work with usergrid counter/events.",
+  "main": "index.js",
+  "scripts": { },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rafailong/usergrid-counters.git"
+  },
+  "keywords": [
+    "usergrid",
+    "counters",
+    "events"
+  ],
+  "author": "Rafailong",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Rafailong/usergrid-counters/issues"
+  },
+  "homepage": "https://github.com/Rafailong/usergrid-counters#readme"
+}
