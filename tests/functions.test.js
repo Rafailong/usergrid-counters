@@ -16,9 +16,14 @@ describe('index', () => {
   })
 
   describe('create', () => {
-    it('should create a event correctly', () => {
+    it('should exists', () => {
       expect(_client.createEvent).not.be.null
       expect(_client.createEvent).be.a('function')
     })
+
+    it('should throw without counters param', () => {
+      expect(_client.createEvent.bind(null)).to.throw('counters is required')
+    });
+
   })
 })
