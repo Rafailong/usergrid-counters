@@ -2,6 +2,7 @@ import { createEvent } from '../lib/functions'
 import UsergrindCounter from '../lib/index'
 import { expect } from 'chai'
 import faker from 'faker'
+import _ from 'lodash'
 
 describe('index', () => {
   var _client =
@@ -39,6 +40,24 @@ describe('index', () => {
         })
         .catch(done)
     })
+
+    it('should create 3 counters at once', (done) => {
+      const names = [
+        faker.random.uuid(),
+        faker.random.uuid(),
+        faker.random.uuid()
+      ]
+      _client.createEvent(names)
+        .then((event) => {
+          expect(event).not.to.be.null
+          expect(event).be.a('array')
+          expect(event).not.to.be.empty
+          expect(event.length).equals(1)
+          _.each(names, (c) => expect(event[0].counters.hasOwnProperty(c)).to.be.true)
+          done()
+        })
+        .catch(done)
+    });
 
   })
 })
