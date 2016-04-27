@@ -31,7 +31,18 @@ function configureClient (opts = validations.required('opts', opts)) {
   _client = new usergrid.client(clientOpts)
   return {
     'createEvent': _.partial(functions.createEvent, _client),
-    'getCounter': _.partial(functions.getCounter, _client)
+    'getCounter': _.partial(functions.getCounter, _client),
+    'timeResolutions': {
+      'ALL': 'all',
+      'MINUTE': 'minute',
+      'FIVE_M': 'five_minutes',
+      'HALF_H': 'half_hour',
+      'HOUR': 'hour',
+      'SIX_D': 'six_day',
+      'DAY': 'day',
+      'WEEK': 'week',
+      'MONTH': 'month'
+    }
   }
 }
 
