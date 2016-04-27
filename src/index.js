@@ -30,7 +30,8 @@ function configureClient (opts = validations.required('opts', opts)) {
   }
   _client = new usergrid.client(clientOpts)
   return {
-    'createEvent': _.partial(functions.createEvent, _client)
+    'createEvent': _.partial(functions.createEvent, _client),
+    'getCounter': _.partial(functions.getCounter, _client)
   }
 }
 

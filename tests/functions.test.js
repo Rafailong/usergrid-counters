@@ -58,6 +58,22 @@ describe('index', () => {
         })
         .catch(done)
     });
-
   })
+
+  describe('getCounter', () => {
+    const eventName = faker.random.uuid()
+    before((done) => {
+      _client.createEvent(eventName)
+        .then((counters) => {
+          done()
+        })
+        .catch(done)
+    })
+
+    it('should throw without counter name', () => {
+      expect(_client.getCounter.bind(null)).to.throw('counterName is required')
+    });
+
+  });
+
 })
