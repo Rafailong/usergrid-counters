@@ -57,7 +57,7 @@ describe('index', () => {
           done()
         })
         .catch(done)
-    });
+    })
   })
 
   describe('getCounter', () => {
@@ -70,10 +70,26 @@ describe('index', () => {
         .catch(done)
     })
 
+    it('should exists', () => {
+      expect(_client.getCounter).not.be.null
+      expect(_client.getCounter).be.a('function')
+    })
+
     it('should throw without counter name', () => {
       expect(_client.getCounter.bind(null)).to.throw('counterName is required')
-    });
+    })
 
-  });
+    it('should get the counter with a 0 value', (done) => {
+      _client.getCounter(eventName)
+        .then((counter) => {
+          expect(counter).not.to.be.null
+          expect(counter).to.be.a('number')
+          expect(counter).to.equal(0)
+          done()
+        })
+        .catch(done)
+    })
+
+  })
 
 })

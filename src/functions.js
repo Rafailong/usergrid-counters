@@ -8,7 +8,7 @@ const createEventsRequestBaseOptions = {
 }
 
 const getCounterRequestBaseOptions = {
-  methos: 'GET',
+  method: 'GET',
   endpoint: 'counters'
 }
 
@@ -29,8 +29,10 @@ export function getCounter (client, counterName = validations.required('counterN
     counterName = counterName.join(',')
   }
   let reqOpts = Object.assign(getCounterRequestBaseOptions, {
-    qs: `counters=${counterName}`
+    qs: {
+      'counter': counterName
+    }
   })
   return Promise.promisify(client.request, { 'context': client })(reqOpts)
-    .then((response) => response)
+    .then((response) => response.count)
 }
