@@ -90,6 +90,18 @@ describe('index', () => {
         .catch(done)
     })
 
+    it('should return a value of 0 when requesting a a counter that does not exist', (done) => {
+      const counterName = faker.random.uuid()
+      _client.getCounter(counterName)
+        .then(counter => {
+          expect(counter).not.to.be.null
+          expect(counter).to.be.a('number')
+          expect(counter).to.equal(0)
+          done()
+        })
+        .catch(done)
+    });
+
   })
 
 })
