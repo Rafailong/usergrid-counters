@@ -34,6 +34,7 @@ function configureClient (opts = validations.required('opts', opts)) {
   return {
     'createEvent': _.partial(functions.createEvent, requestFuncPromisified),
     'getCounter': _.partial(functions.getCounter, requestFuncPromisified),
+    'incrementCounter': _.partial(functions.incrementCounter, requestFuncPromisified),
     'timeResolutions': {
       'ALL': 'all',
       'MINUTE': 'minute',

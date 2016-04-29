@@ -35,3 +35,15 @@ export function getCounter (request, counterName = validations.required('counter
   return request(reqOpts)
     .then((response) => response.count)
 }
+
+export function incrementCounter (request, counterName = validations.required('counterName', counterName), increment = 1) {
+  let body = { 'timestamp': 0, 'counters': {} }
+  body.counters[counterName] = increment
+  const reqOpts = Object.assign(createEventsRequestBaseOptions, { body })
+  return request(reqOpts)
+    .then((response) => {
+      let entities = response.entities
+      if (_.isEmpty(entities)) { return undefined }
+      return entities[0].counters
+    })
+}

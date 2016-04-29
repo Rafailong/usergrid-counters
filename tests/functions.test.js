@@ -100,8 +100,65 @@ describe('index', () => {
           done()
         })
         .catch(done)
-    });
+    })
+  })
 
+  describe('incrementCounter', () => {
+    let eventName
+    beforeEach((done) => {
+      eventName = faker.random.uuid()
+      _client.createEvent(eventName)
+        .then((counters) => {
+          done()
+        })
+        .catch(done)
+    })
+
+    it('should exists', () => {
+      expect(_client.incrementCounter).not.be.null
+      expect(_client.incrementCounter).be.a('function')
+    })
+
+    it('should throw without counters param', () => {
+      expect(_client.incrementCounter.bind(null)).to.throw('counterName is required')
+    })
+
+    it('should increment by defautl the counter', (done) => {
+      _client.incrementCounter(eventName)
+        .then(counters => {
+          expect(counters).not.to.be.null
+          expect(counters).be.a('object')
+          expect(counters).not.to.be.empty
+          expect(counters[eventName]).to.equal(1)
+          done()
+        })
+        .catch(done)
+    })
+
+    it('should increment by 10 the counter', (done) => {
+      const increment = 10
+      _client.incrementCounter(eventName, increment)
+        .then(counters => {
+          expect(counters).not.to.be.null
+          expect(counters).be.a('object')
+          expect(counters).not.to.be.empty
+          expect(counters[eventName]).to.equal(increment)
+          done()
+        })
+        .catch(done)
+    })
+
+    it('should crearte a counter with the default increment', (done) => {
+      _client.incrementCounter(eventName)
+        .then(counters => {
+          expect(counters).not.to.be.null
+          expect(counters).be.a('object')
+          expect(counters).not.to.be.empty
+          expect(counters[eventName]).to.equal(1)
+          done()
+        })
+        .catch(done)
+    })
   })
 
 })
