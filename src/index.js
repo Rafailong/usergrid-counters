@@ -29,9 +29,11 @@ function configureClient (opts = validations.required('opts', opts)) {
     'buildCurl': finder(CLIENT_BUILD_CURL, 'buildCurl')
   }
   _client = new usergrid.client(clientOpts)
+  const requestFuncPromisified = Promise.promisify(_client.request, { 'context': _client })
+
   return {
-    'createEvent': _.partial(functions.createEvent, _client),
-    'getCounter': _.partial(functions.getCounter, _client),
+    'createEvent': _.partial(functions.createEvent, requestFuncPromisified),
+    'getCounter': _.partial(functions.getCounter, requestFuncPromisified),
     'timeResolutions': {
       'ALL': 'all',
       'MINUTE': 'minute',

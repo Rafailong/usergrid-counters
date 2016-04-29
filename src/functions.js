@@ -1,4 +1,3 @@
-import Promise from 'bluebird'
 import _ from 'lodash'
 var validations = require('./validations')
 
@@ -12,7 +11,7 @@ const getCounterRequestBaseOptions = {
   endpoint: 'counters'
 }
 
-export function createEvent (client, counters = validations.required('counters', counters)) {
+export function createEvent (request, counters = validations.required('counters', counters)) {
   let body = { 'timestamp': 0, 'counters': {} }
   if (counters instanceof Array) {
     _.each(counters, (name) => body.counters[name] = 0)
@@ -20,11 +19,11 @@ export function createEvent (client, counters = validations.required('counters',
     body.counters[counters.toString()] = 0
   }
   const reqOpts = Object.assign(createEventsRequestBaseOptions, { body})
-  return Promise.promisify(client.request, { 'context': client })(reqOpts)
+  return request(reqOpts)
     .then((response) => response.entities)
 }
 
-export function getCounter (client, counterName = validations.required('counterName', counterName)) {
+export function getCounter (request, counterName = validations.required('counterName', counterName)) {
   if (counterName instanceof Array) {
     counterName = counterName.join(',')
   }
@@ -33,6 +32,6 @@ export function getCounter (client, counterName = validations.required('counterN
       'counter': counterName
     }
   })
-  return Promise.promisify(client.request, { 'context': client })(reqOpts)
+  return request(reqOpts)
     .then((response) => response.count)
 }
