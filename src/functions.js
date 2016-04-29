@@ -36,9 +36,26 @@ export function getCounter (request, counterName = validations.required('counter
     .then((response) => response.count)
 }
 
-export function incrementCounter (request, counterName = validations.required('counterName', counterName), increment = 1) {
+export function incrementCounter (request,
+  counterName = validations.required('counterName', counterName),
+  increment = validations.validIncrement('increment', increment = 1)) {
+
   let body = { 'timestamp': 0, 'counters': {} }
   body.counters[counterName] = increment
+  const reqOpts = Object.assign(createEventsRequestBaseOptions, { body })
+  return request(reqOpts)
+    .then((response) => {
+      let entities = response.entities
+      if (_.isEmpty(entities)) { return undefined }
+      return entities[0].counters
+    })
+}
+
+export function resetCounter (request,
+  counterName = validations.required('counterName', counterName)) {
+
+  let body = { 'timestamp': 0, 'counters': {} }
+  body.counters[counterName] = 0
   const reqOpts = Object.assign(createEventsRequestBaseOptions, { body })
   return request(reqOpts)
     .then((response) => {

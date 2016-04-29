@@ -161,4 +161,52 @@ describe('index', () => {
     })
   })
 
+  describe('resetCounter', () => {
+    let eventName
+    let increment
+    beforeEach((done) => {
+      eventName = faker.random.uuid()
+      increment = faker.random.number()
+      _client.incrementCounter(eventName, increment)
+        .then((counters) => {
+          expect(counters).not.to.be.null
+          expect(counters).be.a('object')
+          expect(counters).not.to.be.empty
+          expect(counters[eventName]).to.equal(increment)
+          done()
+        })
+        .catch(done)
+    })
+
+    it('should exists', () => {
+      expect(_client.resetCounter).not.be.null
+      expect(_client.resetCounter).be.a('function')
+    })
+
+    it('should throw without counters param', () => {
+      expect(_client.resetCounter.bind(null)).to.throw('counterName is required')
+    })
+
+    it('should reset a existent counter', (done) => {
+      wrapper(eventName, 0, done)
+    })
+
+    it('should create a non existing counter', (done) => {
+      const counter = faker.random.uuid()
+      wrapper(eventName, 0, done)
+    })
+
+    function wrapper (eventName, counterValue, cb) {
+      _client.resetCounter(eventName)
+        .then(counters => {
+          expect(counters).not.to.be.null
+          expect(counters).be.a('object')
+          expect(counters).not.to.be.empty
+          expect(counters[eventName]).to.equal(counterValue)
+          cb()
+        })
+        .catch(cb)
+    }
+  })
+
 })
