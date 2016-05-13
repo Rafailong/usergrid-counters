@@ -211,9 +211,15 @@ describe('index', () => {
 
     describe('getCounterInterval', () => {
         const eventName = faker.random.uuid()
+        const today = new Date();
         const interval = {
-            start_time: faker.random.number(),
-            end_time: faker.random.number(),
+            start_time: today.getTime(),
+            end_time: new Date().setDate(today.getDate() + 1),
+            resolution: 'minute'
+        }
+        const intervalStartNull = {
+            start_time: null,
+            end_time: new Date().setDate(today.getDate() + 1),
             resolution: 'minute'
         }
         before((done) => {
@@ -230,12 +236,24 @@ describe('index', () => {
         })
 
         it('should throw without params', () => {
-            expect(_client.getCounterInterval.bind(null)).to.throw('counterName is required')
+            expect(() => _client.getCounterInterval()).to.throw('counterName is required')
         })
 
-        /*it('should throw without interval', () => {
-            expect(_client.getCounterInterval(eventName, null)).to.throw(`interval is required`)
-        })*/
+        it('should throw without eventName', () => {
+            expect(() => _client.getCounterInterval(undefined, interval)).to.throw('counterName is required')
+        })
+
+        it('should throw without interval', () => {
+            expect(() => _client.getCounterInterval(eventName, undefined)).to.throw('interval is required')
+        })
+
+        it('should throw without start_time', () => {
+            expect(() => _client.getCounterInterval(eventName, undefined)).to.throw('interval is required')
+        })
+
+        it('should throw without start_time', () => {
+            expect(() => _client.getCounterInterval(eventName, intervalStartNull)).to.throw('start_time bad format')
+        })
 
         it('should return', (done) => {
             expect(_client.getCounterInterval(eventName, interval)

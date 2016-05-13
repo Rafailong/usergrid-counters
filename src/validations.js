@@ -25,42 +25,43 @@ export function validIncrement (name = 'the property', increment) {
 
 export function validInterval (name = 'the property', interval) {
   var properties = new Array()
-  
+
   const error = () => {
-    return new Error(properties.join(',') + 'required')
+    return new Error(properties.join(','))
   }
-
+  console.log('Rfa', interval)
   if(!interval) {
-    throw error()
+    throw new Error(`${name} is required`)
   }
-
+  console.log('ssss' + interval.start_time);
   if(interval.hasOwnProperty('start_time')) {
-    if(_.isNan(interval.start_time)) {
-      properties.push('start_time')
+    console.log('ssss' + interval.start_time);
+    if(_.isNaN(interval.start_time)) {
+      properties.push('start_time bad format')
     }
   } else {
-    properties.push('start_time');
+    properties.push('start_time required');
   }
 
   if(interval.hasOwnProperty('end_time')) {
-    if(_.isNan(interval.start_time)) {
-      properties.push('end_time')
+    if(_.isNaN(interval.start_time)) {
+      properties.push('end_time bad format')
     }
   } else {
-    properties.push('end_time');
+    properties.push('end_time required');
   }
 
   if(interval.hasOwnProperty('resolution')) {
      if(!_.indexOf(timeResolutions, interval.resolution)) {
-       properties.push('resolution')
+       properties.push('resolution bad format')
      }
   } else {
-    properties.push('resolution');
+    properties.push('resolution required');
   }
 
   if(properties.length > 0) {
     throw error()
   }
-
+  
   return interval
 }

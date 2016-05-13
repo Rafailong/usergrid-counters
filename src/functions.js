@@ -62,6 +62,7 @@ export function getCounterInterval(request, counterName = validations.required('
   if (counterName instanceof Array) {
     counterName = counterName.join(',')
   }
+  
   let reqOpts = Object.assign(getCounterRequestBaseOptions, {
     qs: {
       'counter': counterName,
