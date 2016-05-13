@@ -209,4 +209,43 @@ describe('index', () => {
     }
   })
 
+    describe('getCounterInterval', () => {
+        const eventName = faker.random.uuid()
+        const interval = {
+            start_time: faker.random.number(),
+            end_time: faker.random.number(),
+            resolution: 'minute'
+        }
+        before((done) => {
+            _client.createEvent(eventName)
+                .then((counters) => {
+                    done()
+                })
+                .catch(done)
+        })
+
+        it('should exists', () => {
+            expect(_client.getCounterInterval).not.be.null
+            expect(_client.getCounterInterval).be.a('function')
+        })
+
+        it('should throw without params', () => {
+            expect(_client.getCounterInterval.bind(null)).to.throw('counterName is required')
+        })
+
+        /*it('should throw without interval', () => {
+            expect(_client.getCounterInterval(eventName, null)).to.throw(`interval is required`)
+        })*/
+
+        it('should return', (done) => {
+            expect(_client.getCounterInterval(eventName, interval)
+                .then(counters => {
+                    expect(counters).to.equal(0)
+                    done()
+                })
+                .catch(done))
+        })
+
+    })
+
 })
