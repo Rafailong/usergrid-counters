@@ -14,6 +14,7 @@ const getCounterRequestBaseOptions = {
 export function createEvent (request, counters = validations.required('counters', counters)) {
   let body = { 'timestamp': 0, 'counters': {} }
   if (counters instanceof Array) {
+    
     _.each(counters, (name) => body.counters[name] = 0)
   } else {
     body.counters[counters.toString()] = 0
