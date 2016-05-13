@@ -29,13 +29,13 @@ export function validInterval (name = 'the property', interval) {
   const error = () => {
     return new Error(properties.join(','))
   }
-  console.log('Rfa', interval)
+  
   if(!interval) {
     throw new Error(`${name} is required`)
   }
-  console.log('ssss' + interval.start_time);
+  
   if(interval.hasOwnProperty('start_time')) {
-    console.log('ssss' + interval.start_time);
+    
     if(_.isNaN(interval.start_time)) {
       properties.push('start_time bad format')
     }
