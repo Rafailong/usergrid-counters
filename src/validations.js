@@ -16,9 +16,6 @@ export function validIncrement (name = 'the property', increment) {
   if (_.isNaN(int)) {
     throw error
   }
-  if (int <= 0) {
-    throw error
-  }
 
   return int
 }

@@ -4,7 +4,7 @@ import { expect } from 'chai'
 import faker from 'faker'
 import _ from 'lodash'
 
-describe('index', () => {
+describe('index', () => {  
   var _client =
   require('dotenv').config()
   before(() => {
@@ -81,22 +81,23 @@ describe('index', () => {
 
     it('should get the counter with a 0 value', (done) => {
       _client.getCounter(eventName)
-        .then((counter) => {
-          expect(counter).not.to.be.null
-          expect(counter).to.be.a('number')
-          expect(counter).to.equal(0)
+        .then((counters) => {
+          expect(counters).not.to.be.null
+          expect(counters).to.be.a('array')
+          expect(counters[0].values.length).to.equal(0)
           done()
         })
         .catch(done)
     })
 
-    it('should return a value of 0 when requesting a a counter that does not exist', (done) => {
+    it('should return an empty array when requesting a counter that does not exist', (done) => {
       const counterName = faker.random.uuid()
       _client.getCounter(counterName)
-        .then(counter => {
-          expect(counter).not.to.be.null
-          expect(counter).to.be.a('number')
-          expect(counter).to.equal(0)
+        .then(counters => {
+          expect(counters).not.to.be.null
+          expect(counters).to.be.a('array')
+          console.log(counters)
+          expect(counters[0].values.length).to.equal(0)
           done()
         })
         .catch(done)
@@ -105,11 +106,16 @@ describe('index', () => {
 
   describe('incrementCounter', () => {
     let eventName
+    let eventName2
     beforeEach((done) => {
       eventName = faker.random.uuid()
+      eventName2 = faker.random.uuid()
       _client.createEvent(eventName)
         .then((counters) => {
-          done()
+          _client.createEvent(eventName2)
+            .then((counters) => {
+              done()
+            })
         })
         .catch(done)
     })
@@ -121,6 +127,10 @@ describe('index', () => {
 
     it('should throw without counters param', () => {
       expect(_client.incrementCounter.bind(null)).to.throw('counterName is required')
+    })
+
+    it('should throw with invalid increment', () => {
+      expect(() => _client.incrementCounter(eventName, 's')).to.throw('increment is an invalid increment')
     })
 
     it('should increment by defautl the counter', (done) => {
@@ -146,6 +156,27 @@ describe('index', () => {
           done()
         })
         .catch(done)
+    })
+
+    it('should decrement by 2 the counter', function (done) {
+      this.timeout(70000)
+      let increment = 30
+      const decrement = -10
+      setTimeout(() => _client.incrementCounter(eventName2, increment)
+        .then(() => {
+            setTimeout(_client.incrementCounter(eventName2, decrement)
+              .then(() => {
+                setTimeout(_client.getCounter(eventName2)
+                  .then(counters => {
+                    expect(counters).not.to.be.null
+                    expect(counters).be.a('array')
+                    expect(counters[0].values[0].value).to.equal(increment + decrement)
+                    done()
+                  })
+                  .catch(done) , 1000)
+
+              }), 20000)
+        }), 20000)
     })
 
     it('should crearte a counter with the default increment', (done) => {
@@ -209,7 +240,7 @@ describe('index', () => {
     }
   })
 
-    describe('getCounterInterval', () => {
+  describe('getCounterInterval', () => {
       const eventName = faker.random.uuid()
       const today = new Date();
       const interval = {

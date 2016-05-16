@@ -33,10 +33,11 @@ export function getCounter (request, counterName = validations.required('counter
     }
   })
   return request(reqOpts)
-    .then((response) => response.count)
+    .then((response) => response.counters)
 }
 
-export function incrementCounter (request, counterName = validations.required('counterName', counterName) , increment = validations.validIncrement('increment', increment = 1)) {
+export function incrementCounter (request, counterName = validations.required('counterName', counterName) , increment = 1) {
+  increment = validations.validIncrement('increment', increment)
   let body = { 'timestamp': 0, 'counters': {} }
   body.counters[counterName] = increment
   return postRequestWrapper(body, request)
