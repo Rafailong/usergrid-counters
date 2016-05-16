@@ -173,13 +173,13 @@ describe('index', () => {
                     expect(counters[0].values[0].value).to.equal(increment + decrement)
                     done()
                   })
-                  .catch(done) , 1000)
+                  .catch(done) , 2000)
 
-              }), 20000)
-        }), 20000)
+              }), 2000)
+        }), 30000)
     })
 
-    it('should crearte a counter with the default increment', (done) => {
+    it('should create a counter with the default increment', (done) => {
       _client.incrementCounter(eventName)
         .then(counters => {
           expect(counters).not.to.be.null
