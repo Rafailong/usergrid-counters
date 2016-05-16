@@ -58,7 +58,9 @@ function postRequestWrapper (body, request) {
     })
 }
 
-export function getCounterInterval(request, counterName = validations.required('counterName', counterName), interval = validations.validInterval('interval', interval)) {
+export function getCounterInterval(request, counterName = validations.required('counterName', counterName), interval) {
+  interval = validations.validInterval('interval', interval)
+  
   if (counterName instanceof Array) {
     counterName = counterName.join(',')
   }
@@ -76,3 +78,5 @@ export function getCounterInterval(request, counterName = validations.required('
       return response.count
     });
 }
+
+

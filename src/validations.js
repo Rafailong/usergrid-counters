@@ -29,14 +29,13 @@ export function validInterval (name = 'the property', interval) {
   const error = () => {
     return new Error(properties.join(','))
   }
-  
+
   if(!interval) {
     throw new Error(`${name} is required`)
   }
   
   if(interval.hasOwnProperty('start_time')) {
-    
-    if(_.isNaN(interval.start_time)) {
+    if(_.isNaN(parseInt(interval.start_time), 10)) {
       properties.push('start_time bad format')
     }
   } else {
@@ -44,7 +43,7 @@ export function validInterval (name = 'the property', interval) {
   }
 
   if(interval.hasOwnProperty('end_time')) {
-    if(_.isNaN(interval.start_time)) {
+    if(_.isNaN(parseInt(interval.end_time), 10)) {
       properties.push('end_time bad format')
     }
   } else {
