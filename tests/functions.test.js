@@ -222,6 +222,11 @@ describe('index', () => {
         end_time: new Date().setDate(today.getDate() + 1),
         resolution: 'minute'
       }
+      const intervalBadResolution = {
+        start_time: today.getTime(),
+        end_time: new Date().setDate(today.getDate() + 1),
+        resolution: 'min'
+      }
       before((done) => {
          _client.createEvent(eventName)
            .then((counters) => {
@@ -249,6 +254,10 @@ describe('index', () => {
 
       it('should throw without start_time', () => {
         expect(() => _client.getCounterInterval(eventName, intervalStartNull)).to.throw('start_time bad format')
+      })
+
+      it('should throw with bad resolution', () => {
+        expect(() => _client.getCounterInterval(eventName, intervalBadResolution)).to.throw('resolution bad format')
       })
 
       it('should return', (done) => {

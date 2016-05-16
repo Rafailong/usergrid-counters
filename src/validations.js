@@ -51,7 +51,7 @@ export function validInterval (name = 'the property', interval) {
   }
 
   if(interval.hasOwnProperty('resolution')) {
-     if(!_.indexOf(timeResolutions, interval.resolution)) {
+     if(_.indexOf(timeResolutions, interval.resolution)==-1) {
        properties.push('resolution bad format')
      }
   } else {
