@@ -14,7 +14,7 @@ const getCounterRequestBaseOptions = {
 export function createEvent (request, counters = validations.required('counters', counters)) {
   let body = { 'timestamp': 0, 'counters': {} }
   if (counters instanceof Array) {
-    _.each(counters, (name) => body.counters[name] = 0)
+    body.counters[_.join(counters, '.')] = 0
   } else {
     body.counters[counters.toString()] = 0
   }
@@ -61,11 +61,11 @@ function postRequestWrapper (body, request) {
 
 export function getCounterInterval(request, counterName = validations.required('counterName', counterName), interval) {
   interval = validations.validInterval('interval', interval)
-  
+
   if (counterName instanceof Array) {
     counterName = counterName.join(',')
   }
-  
+
   let reqOpts = Object.assign(getCounterRequestBaseOptions, {
     qs: {
       'counter': counterName,
@@ -74,7 +74,7 @@ export function getCounterInterval(request, counterName = validations.required('
       'resolution': interval.resolution
     }
   });
-  return request(reqOpts) 
+  return request(reqOpts)
     .then( (response) => {
       return response.count
     });
